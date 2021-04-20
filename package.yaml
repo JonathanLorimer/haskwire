@@ -25,6 +25,9 @@ ghc-options:
 dependencies:
   - base >= 4.9 && < 5
   - relude
+  - html-parse
+  - monad-loops
+  - fin
   - uuid
   - ginger
   - text

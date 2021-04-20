@@ -7,7 +7,8 @@ let
     '';
   ghcidScript = pkgs.writeShellScriptBin "dev"
     ''
-    ${refreshScript}
+    hpack .
+    cabal new-build
     ghcid --command 'cabal new-repl lib:haskwire' --allow-eval --warnings -o ghcid.txt
     '';
   runScript = pkgs.writeShellScriptBin "run" "cabal run exe:demo";

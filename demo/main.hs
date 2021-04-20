@@ -14,6 +14,7 @@ import qualified Network.Wai.Handler.WebSockets as WaiWs
 import qualified Network.WebSockets as WS
 import qualified Network.Wai as Wai
 import qualified Network.Wai.Handler.Warp as Warp
+import Hotwire.Turbo (trimFrame)
 
 main :: IO ()
 main = do
@@ -49,11 +50,16 @@ scottyApp =
         Just header -> successMessage $ "found Turbo-Frame header: " <> show header
       num <- liftIO randomIO
       let word = fromJust $ (["monkey", "banana", "simbad", "church", "towel"] :: [LT.Text]) !!? (num `mod` 4)
-      Sc.html $ fold [ "<turbo-frame id=\"word_frame\">"
+      Sc.html $ maybe id trimFrame frameHeader
+              $ fold [ "<div><div><div>"
+                     , "<turbo-frame id=\"irrelevant\">"
+                     , "<turbo-frame id=\"word_frame\">"
                      , "<h1>This is a frame</h1>"
                      , "<p>" <> word <> "</p>"
                      , "<a href=\"/frame/word\">Get a new word</a>"
                      , "</turbo-frame>"
+                     , "</turbo-frame>"
+                     , "</div></div></div>"
                      ]
 
 wsapp :: WS.ServerApp
