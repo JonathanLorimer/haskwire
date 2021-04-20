@@ -24,3 +24,4 @@ cabal.project.local~
 .ghc.environment.*
 ghcid.txt
 **/node_modules
+**/yarn-error.log
