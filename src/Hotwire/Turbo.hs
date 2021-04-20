@@ -7,6 +7,11 @@ import Control.Monad.Loops (takeWhileM)
 import Data.Nat
 import Text.HTML.Parser
 
+-- $turboframe
+-- Most of the turbo-frame logic is handled client side, but there are some convenience functions
+-- we can provide that make life better. For example we can trim down the response in case of endpoint
+-- re-use.
+
 -- | A utility function for plucking out the @turbo-frame@ from a chunk of html.
 -- This prevents the user from sending unnecessarily heavy responses over the wire.
 trimFrame :: Text -> Text -> Text
@@ -25,7 +30,10 @@ trimFrame frameId = renderTokens . findFrame frameId . parseTokensLazy
            case openTagCount of
              Z -> pure True
              S nat -> put nat >> pure False
-         | otherwise -> pure False
+         | otherwise ->
+           case openTagCount of
+             Z -> pure True
+             _ -> pure False
 
     isTurboFrameClosingTag :: Token -> Bool
     isTurboFrameClosingTag (TagClose tname) = tname == "turbo-frame"

@@ -74,6 +74,9 @@ tests:
     main: Main.hs
     source-dirs: test
     dependencies:
+      - haskwire
       - hspec
       - hspec-expectations
-      - QuickCheck
+      - hspec-expectations
+      - hspec-hedgehog
+      - hedgehog

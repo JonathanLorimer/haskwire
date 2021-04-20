@@ -11,7 +11,14 @@ let
     cabal new-build
     ghcid --command 'cabal new-repl lib:haskwire' --allow-eval --warnings -o ghcid.txt
     '';
+  ghcidTestScript = pkgs.writeShellScriptBin "dev-test"
+    ''
+    hpack .
+    cabal new-build
+    ghcid --command 'cabal new-repl test:test' --allow-eval --warnings -o ghcid.txt
+    '';
   runScript = pkgs.writeShellScriptBin "run" "cabal run exe:demo";
+  runTestScript = pkgs.writeShellScriptBin "run-test" "cabal run test:test";
 
 in hsPkgs.shellFor {
     packages = myHsPkgs: [
@@ -33,7 +40,9 @@ in hsPkgs.shellFor {
       # Scripts
       refreshScript
       ghcidScript
+      ghcidTestScript
       runScript
+      runTestScript
     ];
 }
 
