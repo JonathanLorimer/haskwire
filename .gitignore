@@ -23,4 +23,4 @@ cabal.project.local~
 .HTF/
 .ghc.environment.*
 ghcid.txt
-*/node_modules
+**/node_modules

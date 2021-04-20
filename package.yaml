@@ -25,6 +25,7 @@ ghc-options:
 dependencies:
   - base >= 4.9 && < 5
   - relude
+  - uuid
   - ginger
   - text
   - websockets
