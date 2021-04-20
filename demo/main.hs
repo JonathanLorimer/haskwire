@@ -44,8 +44,6 @@ scottyApp =
     Sc.get "/frame/word" $ do
       logRequest "GET - /frame/word"
       frameHeader <- Sc.header "Turbo-Frame"
-      req <- Sc.request
-      liftIO $ print req
       liftIO $ case frameHeader of
         Nothing -> warningMessage "expected Turbo-Frame header, but didn't find it"
         Just header -> successMessage $ "found Turbo-Frame header: " <> show header
