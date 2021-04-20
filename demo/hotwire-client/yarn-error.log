@@ -1,0 +1,41 @@
+Arguments: 
+  /nix/store/xcnr6wn2b3ndgfys3xwjdcd4cgchq6v5-nodejs-14.16.0/bin/node /nix/store/344dzbmjwxw4fb67zdvf9m81hy4m0hsm-yarn-1.22.10/bin/yarn add @hotwire/turbo
+
+PATH: 
+  /home/jonathanl/.config/zsh/plugins/zsh-nix-shell/scripts:/nix/store/5v30gbdal10plmjijyx2wbmbijbc14ni-ghc-8.10.4-with-packages/bin:/nix/store/mavzvlk3kaa8nh4a5l0sr11pddxkcvja-hpack-0.34.4/bin:/nix/store/8nwgidwa623jkz09wn0rjvcs07jjval3-patchelf-0.12/bin:/nix/store/pqiwg1jw0s7qzdi4m9xbps2jb98fsxbx-gcc-wrapper-10.2.0/bin:/nix/store/xrb5qsxpvhpm0irr9ykfqpvj8a6sk4xh-gcc-10.2.0/bin:/nix/store/b6p5cspsidkc2bpljhwz7d0nbmgrx5z0-glibc-2.32-37-bin/bin:/nix/store/9fkdn82nzxgkxyax3m9qdh2knj7apaa5-coreutils-8.32/bin:/nix/store/r7v3x5a68a4mxc2kh04cmyzx7xq00w2g-binutils-wrapper-2.35.1/bin:/nix/store/xdii8qvch5h8chyp0z2is2qzky565w68-binutils-2.35.1/bin:/nix/store/4jllf2xc8cpk25cqmnfkhf3xhfdmgrjk-ncurses-6.2/bin:/nix/store/bq2ixv62f65908izg8sp5mwq80gp8p1y-cabal-install-3.4.0.0/bin:/nix/store/i7d34gabr3wzbxb8vci1qqsgdp7gxs6r-cabal2nix-2.16.0/bin:/nix/store/2vfaldava686mi53haqwj21ggfhb4da5-haskell-language-server-1.0.0.0/bin:/nix/store/zrn2pc8ha799igpagakr0w0m7k6hlwaz-ghcid-0.8.7-bin/bin:/nix/store/cr9aliz4b731xgdfbfwp58vciqrs465r-ormolu-0.1.4.1-bin/bin:/nix/store/344dzbmjwxw4fb67zdvf9m81hy4m0hsm-yarn-1.22.10/bin:/nix/store/xcnr6wn2b3ndgfys3xwjdcd4cgchq6v5-nodejs-14.16.0/bin:/nix/store/z7imsj1rigrgdx24scix6d17gvf8diif-ref/bin:/nix/store/s36lxmv73sb8x1ab7i545shd3d3ck0k0-dev/bin:/nix/store/jibd0ll5hp85g4lw7cj2y8p6m6zlfhzk-run/bin:/nix/store/7nx8fqzpi5nsbi07md1qb1gbf9fscf9i-findutils-4.7.0/bin:/nix/store/7v1xa3528d5frr55d3dhl991zx7by169-diffutils-3.7/bin:/nix/store/ij7k48dhdrda13gcp3lbpi507b2awnmr-gnused-4.8/bin:/nix/store/ia1dn8zyi07phxkx02c0wwqc7v7c54nl-gnugrep-3.6/bin:/nix/store/9sscma6kgp35kb70bi8pms35ppk7j35r-gawk-5.1.0/bin:/nix/store/hxpycgfpdnmnc9iwxakxr037k0bvdq97-gnutar-1.32/bin:/nix/store/89kh3d91b9i9mqh39fj6xdff1sw81m9f-gzip-1.10/bin:/nix/store/vw1lcig1bkncmsmhif27h8hq1gaxldhg-bzip2-1.0.6.0.2-bin/bin:/nix/store/n7vham7g9lgwb7v83sk5nl7akk3zspvq-gnumake-4.3/bin:/nix/store/w65ydq10abi813fi7d5j7afdcrxj3aqq-bash-4.4-p23/bin:/nix/store/lsr2s27gbqxny7layxjab55dlqzrl1v2-patch-2.7.6/bin:/nix/store/sg3h64z6a7mxmap8zgrhhjscpri5b5vn-xz-5.2.5-bin/bin:/run/wrappers/bin:/home/jonathanl/.nix-profile/bin:/etc/profiles/per-user/jonathanl/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin:/home/jonathanl/.config/zsh/plugins/zsh-nix-shell
+
+Yarn version: 
+  1.22.10
+
+Node version: 
+  14.16.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/@hotwire%2fturbo: Not found
+      at Request.params.callback [as _callback] (/nix/store/344dzbmjwxw4fb67zdvf9m81hy4m0hsm-yarn-1.22.10/libexec/yarn/lib/cli.js:66988:18)
+      at Request.self.callback (/nix/store/344dzbmjwxw4fb67zdvf9m81hy4m0hsm-yarn-1.22.10/libexec/yarn/lib/cli.js:140749:22)
+      at Request.emit (events.js:315:20)
+      at Request.<anonymous> (/nix/store/344dzbmjwxw4fb67zdvf9m81hy4m0hsm-yarn-1.22.10/libexec/yarn/lib/cli.js:141721:10)
+      at Request.emit (events.js:315:20)
+      at IncomingMessage.<anonymous> (/nix/store/344dzbmjwxw4fb67zdvf9m81hy4m0hsm-yarn-1.22.10/libexec/yarn/lib/cli.js:141643:12)
+      at Object.onceWrapper (events.js:421:28)
+      at IncomingMessage.emit (events.js:327:22)
+      at endReadableNT (internal/streams/readable.js:1327:12)
+      at processTicksAndRejections (internal/process/task_queues.js:80:21)
+
+npm manifest: 
+  {
+    "name": "hotwire-client",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

@@ -1,0 +1,8 @@
+cradle:
+ cabal:
+  - path: "./src"
+    component: "lib:haskwire"
+  - path: "./test"
+    component: "test:test"
+  - path: "./demo"
+    component: "exe:demo"

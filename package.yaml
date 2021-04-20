@@ -1,0 +1,75 @@
+name: haskwire
+version: 0.1.0
+synopsis: "HTML Over The Wire but in Haskell"
+description: "Give me SSR or give me death"
+maintainer: Jonathan Lorimer
+github: jonathanlorimer/haskwire
+category: WebDev
+
+ghc-options:
+  - -Weverything
+  - -Wno-missing-exported-signatures # missing-exported-signatures turns off the more strict -Wmissing-signatures. See https://ghc.haskell.org/trac/ghc/ticket/14794#ticket
+  - -Wno-missing-export-lists # Requires explicit export lists for every module, a pain for large modules
+  - -Wno-missing-import-lists # Requires explicit imports of _every_ function (e.g. '$'); too strict
+  - -Wno-missed-specialisations # When GHC can't specialize a polymorphic function. No big deal and requires fixing underlying libraries to solve.
+  - -Wno-all-missed-specialisations # See missed-specialisations
+  - -Wno-unsafe # Don't use Safe Haskell warnings
+  - -Wno-prepositive-qualified-module # Don't use prepositive qualified warnings
+  - -Wno-missing-local-signatures # Warning for polymorphic local bindings. Don't think this is an issue
+  - -Wno-monomorphism-restriction # Don't warn if the monomorphism restriction is used
+  - -Wno-missing-deriving-strategies # remove at a later date
+  - -fdiagnostics-color=always # Enable color when we upgrade to GHC 8.2
+  - +RTS -A128m -n2m -RTS # See docs/compilation-speed.md.
+
+
+dependencies:
+  - base >= 4.9 && < 5
+  - relude
+  - ginger
+  - text
+  - websockets
+
+default-extensions:
+  - LambdaCase
+  - OverloadedStrings
+  - ScopedTypeVariables
+  - TupleSections
+  - MultiWayIf
+  - InstanceSigs
+  - ConstraintKinds
+  - NoImplicitPrelude
+  - BlockArguments
+
+executables:
+  demo:
+    main: main.hs
+    source-dirs: demo
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -fwarn-tabs
+    - -O2
+    dependencies:
+    - haskwire
+    - scotty
+    - colourista
+    - random
+    - warp
+    - wai
+    - wai-extra
+    - wai-websockets
+    - http-types
+
+library:
+  source-dirs: src
+  other-modules: []
+
+tests:
+  test:
+    main: Main.hs
+    source-dirs: test
+    dependencies:
+      - hspec
+      - hspec-expectations
+      - QuickCheck
