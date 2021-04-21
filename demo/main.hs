@@ -14,7 +14,7 @@ import qualified Network.Wai.Handler.WebSockets as WaiWs
 import qualified Network.WebSockets as WS
 import qualified Network.Wai as Wai
 import qualified Network.Wai.Handler.Warp as Warp
-import Hotwire.Turbo (trimFrame)
+import Hotwire.Turbo.Frames (trimFrame)
 
 main :: IO ()
 main = do
