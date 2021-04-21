@@ -15,6 +15,7 @@ import qualified Network.WebSockets as WS
 import qualified Network.Wai as Wai
 import qualified Network.Wai.Handler.Warp as Warp
 import Hotwire.Turbo.Frames (trimFrame)
+import Hotwire.Turbo.Streams
 
 main :: IO ()
 main = do
@@ -26,6 +27,11 @@ main = do
 
 logRequest :: MonadIO m => Text -> m ()
 logRequest t = liftIO $ blueMessage $ "↳ " <> t
+
+getRandomWord :: MonadIO m => m LT.Text
+getRandomWord = do
+  num <- liftIO randomIO
+  pure . fromJust $ (["monkey", "banana", "sinbad", "church", "towel"] :: [LT.Text]) !!? (num `mod` 5)
 
 scottyApp :: IO Wai.Application
 scottyApp =
@@ -48,8 +54,7 @@ scottyApp =
       liftIO $ case frameHeader of
         Nothing -> warningMessage "expected Turbo-Frame header, but didn't find it"
         Just header -> successMessage $ "found Turbo-Frame header: " <> show header
-      num <- liftIO randomIO
-      let word = fromJust $ (["monkey", "banana", "simbad", "church", "towel"] :: [LT.Text]) !!? (num `mod` 4)
+      word <- getRandomWord
       Sc.html $ maybe id trimFrame frameHeader
               $ fold [ "<div><div><div>"
                      , "<turbo-frame id=\"irrelevant\">"
@@ -65,12 +70,19 @@ scottyApp =
 wsapp :: WS.ServerApp
 wsapp pending = do
   putText "ws connected"
-  conn <- WS.acceptRequest pending
+  let headers = [("content-type", "text/vnd.turbo-stream.html")]
+  conn <- WS.acceptRequestWith pending $ WS.AcceptRequest Nothing headers
   WS.withPingThread conn 30 (pure ()) (pure ())
 
   (msg :: Text) <- WS.receiveData conn
   WS.sendTextData conn $ ("initial> " :: Text) <> msg
 
   forever $ do
-    WS.sendTextData conn ("loop data" :: Text)
+    word <- getRandomWord
+    WS.sendTextData conn $
+      mkStreamText
+        TurboStream
+          { target = "stream-test"
+          , action = Update $ LT.toStrict word
+          }
     threadDelay $ 1 * 1000000
