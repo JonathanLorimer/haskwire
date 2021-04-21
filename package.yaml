@@ -14,7 +14,7 @@ ghc-options:
   - -Wno-missed-specialisations # When GHC can't specialize a polymorphic function. No big deal and requires fixing underlying libraries to solve.
   - -Wno-all-missed-specialisations # See missed-specialisations
   - -Wno-unsafe # Don't use Safe Haskell warnings
-  - -Wno-safe # Don't use Safe Haskell warnings
+  - -Wno-missing-safe-haskell-mode
   - -Wno-prepositive-qualified-module # Don't use prepositive qualified warnings
   - -Wno-missing-local-signatures # Warning for polymorphic local bindings. Don't think this is an issue
   - -Wno-monomorphism-restriction # Don't warn if the monomorphism restriction is used
@@ -27,6 +27,7 @@ dependencies:
   - base >= 4.9 && < 5
   - relude
   - blaze-html
+  - blaze-markup
   - html-parse
   - monad-loops
   - fin
