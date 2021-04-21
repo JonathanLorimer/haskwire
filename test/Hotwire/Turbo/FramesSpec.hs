@@ -1,9 +1,9 @@
-module Hotwire.TurboSpec where
+module Hotwire.Turbo.FramesSpec where
 
 import Relude hiding (Text)
 import Data.Text.Lazy
 import Test.Hspec
-import Hotwire.Turbo
+import Hotwire.Turbo.Frames
 
 spec :: Spec
 spec = do
