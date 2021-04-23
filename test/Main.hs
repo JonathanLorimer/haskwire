@@ -1,8 +1,8 @@
 module Main (main) where
 
-import Test.Hspec.Runner
-import qualified Spec
 import Relude
+import qualified Spec
+import Test.Hspec.Runner
 
 main :: IO ()
 main = hspecWith defaultConfig Spec.spec
