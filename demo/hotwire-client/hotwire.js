@@ -10,9 +10,6 @@ document.addEventListener("turbo:load", function(e) {
 })
 
 const ws = new WebSocket("ws://localhost:80");
-ws.onopen = () => {
-  ws.send("initial from js");
-};
 const streamSource =
   {
     addEventListener: (_, listener) => {

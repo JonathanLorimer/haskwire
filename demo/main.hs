@@ -69,19 +69,11 @@ scottyApp =
 
 wsapp :: WS.ServerApp
 wsapp pending = do
-  putText "ws connected"
-  let headers = [("content-type", "text/vnd.turbo-stream.html")]
-  conn <- WS.acceptRequestWith pending $ WS.AcceptRequest Nothing headers
-  WS.withPingThread conn 30 (pure ()) (pure ())
-
-  (msg :: Text) <- WS.receiveData conn
-  WS.sendTextData conn $ ("initial> " :: Text) <> msg
-
+  sendTurboMsg <- turboMsg <$> turboConn pending
   forever $ do
     word <- getRandomWord
-    WS.sendTextData conn $
-      mkStreamText
-        TurboStream
+    sendTurboMsg $
+      TurboStream
           { target = "stream-test"
           , action = Update $ LT.toStrict word
           }
