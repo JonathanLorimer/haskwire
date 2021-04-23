@@ -19,6 +19,15 @@
       - [ ] Actions
       - [ ] Targets
     - [ ] Strada (coming soon)
+  - Demo
+    - [ ] Scotty
+    - [ ] Servant
+    - [ ] Yesod
+    - [ ] Trasa
+  - README
+    - [x] Roadmap
+    - [ ] Docs
+    - [ ] Tutorial
   - Framework - Provide a batteries included framework for a hotwire server
     - Server
     - Streaming (WS or SSE)
