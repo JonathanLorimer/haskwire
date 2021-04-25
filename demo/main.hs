@@ -9,7 +9,7 @@ import System.Random
 import qualified Web.Scotty as Sc
 import qualified Data.Text.Lazy as LT
 -- import Network.HTTP.Types
-import qualified Network.Wai.Middleware.Gzip as Sc
+import qualified Network.Wai.Middleware.Gzip as MW
 import qualified Network.Wai.Handler.WebSockets as WaiWs
 import qualified Network.WebSockets as WS
 import qualified Network.Wai as Wai
@@ -36,7 +36,7 @@ getRandomWord = do
 scottyApp :: IO Wai.Application
 scottyApp =
   Sc.scottyApp $ do
-    Sc.middleware $ Sc.gzip $ Sc.def { Sc.gzipFiles = Sc.GzipCompress }
+    Sc.middleware $ MW.gzip $ MW.def { MW.gzipFiles = MW.GzipCompress }
 
 
     Sc.get "/" $ do
