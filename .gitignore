@@ -25,3 +25,5 @@ cabal.project.local~
 ghcid.txt
 **/node_modules
 **/yarn-error.log
+crt-file.crt
+key-file.key

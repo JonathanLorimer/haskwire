@@ -93,3 +93,6 @@ connectTurboClient socketUrl =
         }
       Turbo.connectStreamSource(streamSource)
     |]
+
+connectTurboClientText :: Text -> Text
+connectTurboClientText = toStrict . renderHtml . connectTurboClient

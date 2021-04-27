@@ -19,7 +19,7 @@ import Hotwire.Turbo.Streams
 
 main :: IO ()
 main = do
-  let port = 80
+  let port = 8081
   let settings = Warp.setPort port Warp.defaultSettings
   sapp <- scottyApp
   putStrLn . formatWith [bold, green] $ "Running scotty app on port " <> show port <> " ✨✨✨"
@@ -38,7 +38,6 @@ scottyApp =
   Sc.scottyApp $ do
     Sc.middleware $ MW.gzip $ MW.def { MW.gzipFiles = MW.GzipCompress }
 
-
     Sc.get "/" $ do
       logRequest "GET - /"
       Sc.file "demo/index.html"
@@ -48,6 +47,7 @@ scottyApp =
     Sc.get "/next" $ do
       logRequest "GET - /next"
       Sc.file "demo/next.html"
+
     Sc.get "/frame/word" $ do
       logRequest "GET - /frame/word"
       frameHeader <- Sc.header "Turbo-Frame"

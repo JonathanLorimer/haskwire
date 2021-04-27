@@ -2738,17 +2738,14 @@
     console.groupEnd();
   });
   var ws = new WebSocket("ws://localhost:80");
-  ws.onopen = () => {
-    ws.send("initial from js");
-  };
   var streamSource = {
-    addEventListener: (type, listener) => {
+    addEventListener: (_, listener) => {
       ws.onmessage = (evt) => {
         console.log("onmessage", evt);
         listener(evt);
       };
     },
-    removeEventListener: (type, listener) => {
+    removeEventListener: (_, listener) => {
       ws.onclose = (evt) => {
         console.log("onclose", evt);
         listener(evt);
