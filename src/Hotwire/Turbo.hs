@@ -1,3 +1,3 @@
 {-# LANGUAGE RecordWildCards #-}
-module Hotwire.Turbo where
 
+module Hotwire.Turbo where

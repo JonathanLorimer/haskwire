@@ -51,6 +51,7 @@ let
         *) echo "Usage: proxy (start|stop)" ;;
       esac
     '';
+  formatScript = pkgs.writeShellScriptBin "format" "ormolu --mode inplace $(find . -name '*.hs')";
 
 in hsPkgs.shellFor {
     packages = myHsPkgs: [
@@ -76,6 +77,7 @@ in hsPkgs.shellFor {
       runScript
       runTestScript
       proxyScript
+      formatScript
     ];
 }
 

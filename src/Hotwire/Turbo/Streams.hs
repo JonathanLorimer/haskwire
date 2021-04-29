@@ -1,13 +1,14 @@
-{-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE RecordWildCards #-}
+
 module Hotwire.Turbo.Streams where
 
-import Relude hiding (Text)
-import qualified Network.WebSockets as WS
 import Data.Text
-import Text.Blaze.Html5 (script)
+import qualified Network.WebSockets as WS
+import Relude hiding (Text)
 import Text.Blaze.Html
 import Text.Blaze.Html.Renderer.Text
+import Text.Blaze.Html5 (script)
 import Text.Blaze.Internal hiding (Append)
 import Text.Julius
 
@@ -49,30 +50,29 @@ getInnerHtml action =
     Update innerHtml -> template $ text innerHtml
     Remove -> mempty
 
-data TurboStream
-  = TurboStream
-    { action :: StreamAction
-    , target :: Text
-    }
+data TurboStream = TurboStream
+  { action :: StreamAction,
+    target :: Text
+  }
 
 mkStreamText :: TurboStream -> Text
-mkStreamText TurboStream{..} =
+mkStreamText TurboStream {..} =
   toStrict . renderHtml $
     turboStream ! targetAttr (textValue target)
-                ! actionAttr (serializeStreamAction action) $
-       getInnerHtml action
+      ! actionAttr (serializeStreamAction action)
+      $ getInnerHtml action
 
 mkStreamHtml :: TurboStream -> Html
-mkStreamHtml TurboStream{..} =
+mkStreamHtml TurboStream {..} =
   turboStream ! targetAttr (textValue target)
-              ! actionAttr (serializeStreamAction action) $
-     getInnerHtml action
+    ! actionAttr (serializeStreamAction action)
+    $ getInnerHtml action
 
 turboConn :: MonadIO m => WS.PendingConnection -> m WS.Connection
 turboConn pending =
-  liftIO
-    $ WS.acceptRequestWith pending
-    $ WS.AcceptRequest Nothing [("content-type", "text/vnd.turbo-stream.html")]
+  liftIO $
+    WS.acceptRequestWith pending $
+      WS.AcceptRequest Nothing [("content-type", "text/vnd.turbo-stream.html")]
 
 turboMsg :: MonadIO m => WS.Connection -> TurboStream -> m ()
 turboMsg conn = liftIO . WS.sendTextData conn . mkStreamText

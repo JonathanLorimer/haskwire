@@ -1,21 +1,22 @@
 module Main where
 
-import Relude
-import Data.Maybe
-import Control.Concurrent
-import Colourista.Pure
 import Colourista.IO
-import System.Random
-import qualified Web.Scotty as Sc
+import Colourista.Pure
+import Control.Concurrent
+import Data.Maybe
 import qualified Data.Text.Lazy as LT
 -- import Network.HTTP.Types
-import qualified Network.Wai.Middleware.Gzip as MW
-import qualified Network.Wai.Handler.WebSockets as WaiWs
-import qualified Network.WebSockets as WS
-import qualified Network.Wai as Wai
-import qualified Network.Wai.Handler.Warp as Warp
+
 import Hotwire.Turbo.Frames (trimFrame)
 import Hotwire.Turbo.Streams
+import qualified Network.Wai as Wai
+import qualified Network.Wai.Handler.Warp as Warp
+import qualified Network.Wai.Handler.WebSockets as WaiWs
+import qualified Network.Wai.Middleware.Gzip as MW
+import qualified Network.WebSockets as WS
+import Relude
+import System.Random
+import qualified Web.Scotty as Sc
 
 main :: IO ()
 main = do
@@ -36,7 +37,7 @@ getRandomWord = do
 scottyApp :: IO Wai.Application
 scottyApp =
   Sc.scottyApp $ do
-    Sc.middleware $ MW.gzip $ MW.def { MW.gzipFiles = MW.GzipCompress }
+    Sc.middleware $ MW.gzip $ MW.def {MW.gzipFiles = MW.GzipCompress}
 
     Sc.get "/" $ do
       logRequest "GET - /"
@@ -55,17 +56,19 @@ scottyApp =
         Nothing -> warningMessage "expected Turbo-Frame header, but didn't find it"
         Just header -> successMessage $ "found Turbo-Frame header: " <> show header
       word <- getRandomWord
-      Sc.html $ maybe id trimFrame frameHeader
-              $ fold [ "<div><div><div>"
-                     , "<turbo-frame id=\"irrelevant\">"
-                     , "<turbo-frame id=\"word_frame\">"
-                     , "<h1>This is a frame</h1>"
-                     , "<p>" <> word <> "</p>"
-                     , "<a href=\"/frame/word\">Get a new word</a>"
-                     , "</turbo-frame>"
-                     , "</turbo-frame>"
-                     , "</div></div></div>"
-                     ]
+      Sc.html $
+        maybe id trimFrame frameHeader $
+          fold
+            [ "<div><div><div>",
+              "<turbo-frame id=\"irrelevant\">",
+              "<turbo-frame id=\"word_frame\">",
+              "<h1>This is a frame</h1>",
+              "<p>" <> word <> "</p>",
+              "<a href=\"/frame/word\">Get a new word</a>",
+              "</turbo-frame>",
+              "</turbo-frame>",
+              "</div></div></div>"
+            ]
 
 wsapp :: WS.ServerApp
 wsapp pending = do
@@ -74,7 +77,7 @@ wsapp pending = do
     word <- getRandomWord
     sendTurboMsg $
       TurboStream
-          { target = "stream-test"
-          , action = Update $ LT.toStrict word
-          }
+        { target = "stream-test",
+          action = Update $ LT.toStrict word
+        }
     threadDelay $ 1 * 1000000

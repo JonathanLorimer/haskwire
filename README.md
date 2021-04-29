@@ -5,6 +5,29 @@
   <strong align="center">HTML Over The Wire, bringing SSR to Haskell</strong>
 </p>
 
+## Setup
+
+This repo depends on nix, and uses `nix-shell` to setup a dev environment. To setup nix on your setup please visit the [getting nix page](https://nixos.org/download.html). This repo uses cabal to build the haskell dependencies, but all of the dependencies are provided via the nix-shell
+
+```bash
+nix-shell
+```
+
+There are several utility scripts provided by the nix-shell:
+  - `ref` - This rebuilds the dependencies using cabal, you will have to run this after editing the `package.yaml` file.
+  - `dev` - Runs `ghcid` for the haskwire library
+  - `dev-test` - Runs `ghcid` for the test suite
+  - `run` - Runs the demo server
+  - `run-test` - Executes the test suite
+  - `proxy` - Sets up the development proxy, so we don't have to bind on port `80` directly
+
+The nix shell also provides these haskell tools:
+  - cabal
+  - haskell-language-server
+  - ghcid
+  - ormolu
+
+
 ## Roadmap
   - Core Library
     - [x] Turbo
