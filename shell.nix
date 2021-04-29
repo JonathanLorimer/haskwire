@@ -1,5 +1,10 @@
 with import ./default.nix {};
 let
+  git-pre-commit = pkgs.callPackage ./nix/git-pre-commit-hook.nix {
+    inherit (hsPkgs) hlint;
+    inherit (hsPkgs) ormolu;
+  };
+  update-git-hook = pkgs.callPackage ./nix/update-git-hook.nix {};
   refreshScript = pkgs.writeShellScriptBin "ref"
     ''
     hpack .
@@ -27,12 +32,13 @@ in hsPkgs.shellFor {
     ];
     # withHoogle = true;
     buildInputs = with pkgs; [
-      cabal-install # cabal, haskell build tool
+      cabal-install # Cabal, haskell build tool
       cabal2nix # Utility to download Haskell packages into Nix format
-      haskell-language-server # language server
-      hsPkgs.ghcid # haskell repl with hot reloading
-      hsPkgs.hpack # generate cabal file from package.yaml
-      hsPkgs.ormolu # linter
+      haskell-language-server # Language server
+      hsPkgs.ghcid # Haskell repl with hot reloading
+      hsPkgs.hpack # Generate cabal file from package.yaml
+      hsPkgs.ormolu # Formatter
+      hsPkgs.hlint # Linter
 
       # Demo dependencies
       yarn
@@ -46,5 +52,10 @@ in hsPkgs.shellFor {
       runTestScript
       formatScript
     ];
+
+    shellHook = ''
+      source "${update-git-hook}/bin/haskwire-update-git-hook"
+      updateGitHook "pre-commit" "${git-pre-commit}/bin/haskwire-git-pre-commit" "AlwaysRun"
+    '';
 }
 
