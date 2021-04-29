@@ -44,7 +44,6 @@ in hsPkgs.shellFor {
       ghcidTestScript
       runScript
       runTestScript
-      proxyScript
       formatScript
     ];
 }
