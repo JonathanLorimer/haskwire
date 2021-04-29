@@ -2,16 +2,15 @@
   <img src="https://user-images.githubusercontent.com/32466011/115424637-e1492680-a1cc-11eb-8b76-66bff0d9567e.png" alt="Logo" width="320" height="320">
 
   <h2 align="center">Haskwire</h2>
-  <strong align="center">HTML Over The Wire, bringing SSR to Haskell</strong>
+  <strong align="center" display="block">HTML Over The Wire, bringing SSR to Haskell</strong>
+  <p align="center">🚧 Under development 🚧</p>
 </p>
 
-## Setup
+## ⚙️ Setup
 
-This repo depends on nix, and uses `nix-shell` to setup a dev environment. To setup nix on your setup please visit the [getting nix page](https://nixos.org/download.html). This repo uses cabal to build the haskell dependencies, but all of the dependencies are provided via the nix-shell
+### 🛠️ Development
 
-```bash
-nix-shell
-```
+This repo depends on nix, and uses `nix-shell` to setup a dev environment. To setup nix on your setup please visit the [getting nix page](https://nixos.org/download.html). This repo uses cabal to build the haskell dependencies, but all of the dependencies are provided via the nix-shell.
 
 There are several utility scripts provided by the nix-shell:
   - `ref` - This rebuilds the dependencies using cabal, you will have to run this after editing the `package.yaml` file.
@@ -19,7 +18,7 @@ There are several utility scripts provided by the nix-shell:
   - `dev-test` - Runs `ghcid` for the test suite
   - `run` - Runs the demo server
   - `run-test` - Executes the test suite
-  - `proxy` - Sets up the development proxy, so we don't have to bind on port `80` directly
+  - `format` - Formats all hs files with `ormolu`
 
 The nix shell also provides these haskell tools:
   - cabal
@@ -27,8 +26,33 @@ The nix shell also provides these haskell tools:
   - ghcid
   - ormolu
 
+A typical workflow might look like this:
 
-## Roadmap
+```bash
+nix-shell
+dev
+```
+
+### ✨Running the demo app
+
+nix-shell should also provide the correct version of `node` for you, and `yarn`. We just need to install the turbo client js and es-build to bundle our javascript.
+
+```bash
+nix-shell
+cd demo/hotwire-client
+yarn
+yarn build
+cd ../..
+run
+```
+
+you should see this output in your terminal:
+
+```bash
+λ🔌 Running haskwire demo on port 8081 ✨✨✨
+```
+
+## 📍 Roadmap
   - Core Library
     - [x] Turbo
       - [x] Drive (fully client side)
