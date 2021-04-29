@@ -77,8 +77,8 @@ turboConn pending =
 turboMsg :: MonadIO m => WS.Connection -> TurboStream -> m ()
 turboMsg conn = liftIO . WS.sendTextData conn . mkStreamText
 
-connectTurboClient :: Text -> Html
-connectTurboClient socketUrl =
+streamScriptTag :: Text -> Html
+streamScriptTag socketUrl =
   script . text . toStrict . renderJavascriptUrl (\_ _ -> "") $
     [js|
       const ws = new WebSocket("@{rawJS socketUrl}");
@@ -94,5 +94,5 @@ connectTurboClient socketUrl =
       Turbo.connectStreamSource(streamSource)
     |]
 
-connectTurboClientText :: Text -> Text
-connectTurboClientText = toStrict . renderHtml . connectTurboClient
+renderedStreamScriptTag :: Text -> Text
+renderedStreamScriptTag = toStrict . renderHtml . streamScriptTag
