@@ -2,8 +2,6 @@
 
 writeShellScriptBin "haskwire-git-pre-commit" ''
   set -e
-  echo ${run-ormolu}
-
 
   IFS=$'\n' stagedFiles=("$(git diff --cached --name-only --diff-filter=d "*.hs")")
 
