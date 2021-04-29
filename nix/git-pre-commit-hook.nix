@@ -8,9 +8,7 @@ writeShellScriptBin "haskwire-git-pre-commit" ''
   if [ ! -z "$stagedFiles" ]; then
     ${ormolu} inplace "''${stagedFiles[*]}"
 
-    if [ ! -z $MWB_HLINT_ON_PRECOMMIT ]; then
-      echo "''${stagedFiles[*]}" | xargs ${hlint}/bin/hlint -j4
-    fi
+    echo "''${stagedFiles[*]}" | xargs ${hlint}/bin/hlint -j4
 
     ${git}/bin/git add ''${stagedFiles[*]}
   fi
