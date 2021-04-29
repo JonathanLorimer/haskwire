@@ -1,5 +1,11 @@
 with import ./default.nix {};
 let
+  run-ormolu = pkgs.callPackage ./nix/run-ormolu.nix {};
+  git-pre-commit = pkgs.callPackage ./nix/git-pre-commit-hook.nix {
+    inherit (hsPkgs) hlint;
+    inherit run-ormolu;
+  };
+  update-git-hook = pkgs.callPackage ./nix/update-git-hook.nix {};
   refreshScript = pkgs.writeShellScriptBin "ref"
     ''
     hpack .
@@ -19,7 +25,7 @@ let
     '';
   runScript = pkgs.writeShellScriptBin "run" "cabal run exe:demo";
   runTestScript = pkgs.writeShellScriptBin "run-test" "cabal run test:test";
-  formatScript = pkgs.writeShellScriptBin "format" "ormolu --mode inplace $(find . -name '*.hs')";
+  formatScript = pkgs.writeShellScriptBin "format" "${run-ormolu}/bin/run-ormolu inplace $(find . -name '*.hs' ! -path '**/dist-newstyle/**')";
 
 in hsPkgs.shellFor {
     packages = myHsPkgs: [
@@ -27,12 +33,13 @@ in hsPkgs.shellFor {
     ];
     # withHoogle = true;
     buildInputs = with pkgs; [
-      cabal-install # cabal, haskell build tool
+      cabal-install # Cabal, haskell build tool
       cabal2nix # Utility to download Haskell packages into Nix format
-      haskell-language-server # language server
-      hsPkgs.ghcid # haskell repl with hot reloading
-      hsPkgs.hpack # generate cabal file from package.yaml
-      hsPkgs.ormolu # linter
+      haskell-language-server # Language server
+      hsPkgs.ghcid # Haskell repl with hot reloading
+      hsPkgs.hpack # Generate cabal file from package.yaml
+      hsPkgs.ormolu # Formatter
+      hsPkgs.hlint # Linter
 
       # Demo dependencies
       yarn
@@ -46,5 +53,10 @@ in hsPkgs.shellFor {
       runTestScript
       formatScript
     ];
+
+    shellHook = ''
+      source "${update-git-hook}/bin/haskwire-update-git-hook"
+      updateGitHook "pre-commit" "${git-pre-commit}/bin/haskwire-git-pre-commit" "AlwaysRun"
+    '';
 }
 
