@@ -1,8 +1,9 @@
 with import ./default.nix {};
 let
+  run-ormolu = pkgs.callPackage ./nix/run-ormolu.nix {};
   git-pre-commit = pkgs.callPackage ./nix/git-pre-commit-hook.nix {
     inherit (hsPkgs) hlint;
-    inherit (hsPkgs) ormolu;
+    inherit run-ormolu;
   };
   update-git-hook = pkgs.callPackage ./nix/update-git-hook.nix {};
   refreshScript = pkgs.writeShellScriptBin "ref"
@@ -24,7 +25,7 @@ let
     '';
   runScript = pkgs.writeShellScriptBin "run" "cabal run exe:demo";
   runTestScript = pkgs.writeShellScriptBin "run-test" "cabal run test:test";
-  formatScript = pkgs.writeShellScriptBin "format" "ormolu --mode inplace $(find . -name '*.hs')";
+  formatScript = pkgs.writeShellScriptBin "format" "${run-ormolu}/bin/run-ormolu --mode inplace $(find . -name '*.hs')";
 
 in hsPkgs.shellFor {
     packages = myHsPkgs: [

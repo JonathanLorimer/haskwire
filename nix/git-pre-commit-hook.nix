@@ -1,12 +1,14 @@
-{ writeShellScriptBin, ormolu, git, hlint }:
+{ writeShellScriptBin, run-ormolu, git, hlint }:
 
 writeShellScriptBin "haskwire-git-pre-commit" ''
   set -e
+  echo ${run-ormolu}
+
 
   IFS=$'\n' stagedFiles=("$(git diff --cached --name-only --diff-filter=d "*.hs")")
 
   if [ ! -z "$stagedFiles" ]; then
-    ${ormolu} inplace "''${stagedFiles[*]}"
+    ${run-ormolu}/bin/run-ormolu inplace "''${stagedFiles[*]}"
 
     echo "''${stagedFiles[*]}" | xargs ${hlint}/bin/hlint -j4
 
