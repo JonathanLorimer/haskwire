@@ -3,7 +3,6 @@
   compilerVersion ? "ghc8104",
   nixpkgs ? import ./nix/pinned-nixpkgs.nix
 }:
-
 let
   config = {
     packageOverrides = super:

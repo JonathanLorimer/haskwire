@@ -28,6 +28,7 @@ dependencies:
   - relude
   - blaze-html
   - blaze-markup
+  - shakespeare
   - html-parse
   - monad-loops
   - fin

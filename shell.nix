@@ -19,6 +19,7 @@ let
     '';
   runScript = pkgs.writeShellScriptBin "run" "cabal run exe:demo";
   runTestScript = pkgs.writeShellScriptBin "run-test" "cabal run test:test";
+  formatScript = pkgs.writeShellScriptBin "format" "ormolu --mode inplace $(find . -name '*.hs')";
 
 in hsPkgs.shellFor {
     packages = myHsPkgs: [
@@ -43,6 +44,8 @@ in hsPkgs.shellFor {
       ghcidTestScript
       runScript
       runTestScript
+      proxyScript
+      formatScript
     ];
 }
 

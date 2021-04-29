@@ -1,9 +1,9 @@
 module Hotwire.Turbo.Frames where
 
-import Relude hiding (Text, Nat)
-import Data.Text.Lazy (Text)
 import Control.Monad.Loops (takeWhileM)
 import Data.Nat
+import Data.Text.Lazy (Text)
+import Relude hiding (Nat, Text)
 import Text.HTML.Parser
 
 -- $turboframe
@@ -17,22 +17,24 @@ trimFrame :: Text -> Text -> Text
 trimFrame frameId = renderTokens . findFrame frameId . parseTokensLazy
   where
     findFrame :: Text -> [Token] -> [Token]
-    findFrame fId = flip evalState Z
-                  . takeWhileM (fmap not . isTurboFrameClosingTagNested)
-                  . dropWhile (\tok -> not $ isTurboFrameTag tok && tokenHasSameId fId tok)
+    findFrame fId =
+      flip evalState Z
+        . takeWhileM (fmap not . isTurboFrameClosingTagNested)
+        . dropWhile (\tok -> not $ isTurboFrameTag tok && tokenHasSameId fId tok)
 
     isTurboFrameClosingTagNested :: Token -> State Nat Bool
     isTurboFrameClosingTagNested tok = do
       openTagCount <- get
-      if | isTurboFrameTag tok -> modify S >> pure False
-         | isTurboFrameClosingTag tok ->
-           case openTagCount of
-             Z -> pure True
-             S nat -> put nat >> pure False
-         | otherwise ->
-           case openTagCount of
-             Z -> pure True
-             _ -> pure False
+      if
+          | isTurboFrameTag tok -> modify S >> pure False
+          | isTurboFrameClosingTag tok ->
+            case openTagCount of
+              Z -> pure True
+              S nat -> put nat >> pure False
+          | otherwise ->
+            case openTagCount of
+              Z -> pure True
+              _ -> pure False
 
     isTurboFrameClosingTag :: Token -> Bool
     isTurboFrameClosingTag (TagClose tname) = tname == "turbo-frame"
