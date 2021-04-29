@@ -9,14 +9,14 @@ document.addEventListener("turbo:load", function(e) {
   console.groupEnd()
 })
 
-const ws = new WebSocket("ws://localhost:80");
+const ws = new WebSocket("ws://localhost:8081");
 const streamSource =
   {
     addEventListener: (_, listener) => {
-      ws.onmessage = (evt) => {console.log("onmessage", evt); listener(evt)}
+      ws.onmessage = listener
     },
     removeEventListener: (_, listener) => {
-      ws.onclose = (evt) => {console.log("onclose", evt); listener(evt)}
+      ws.onclose = listener
     }
   }
 

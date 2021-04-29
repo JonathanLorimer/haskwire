@@ -27,3 +27,5 @@ ghcid.txt
 **/yarn-error.log
 crt-file.crt
 key-file.key
+tmp/
+demo/hotwire-client/index.js
