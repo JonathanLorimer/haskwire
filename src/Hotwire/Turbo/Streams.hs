@@ -58,13 +58,15 @@ data TurboStream = TurboStream
 mkStreamText :: TurboStream -> Text
 mkStreamText TurboStream {..} =
   toStrict . renderHtml $
-    turboStream ! targetAttr (textValue target) ! actionAttr (serializeStreamAction action) $
-      getInnerHtml action
+    turboStream ! targetAttr (textValue target)
+      ! actionAttr (serializeStreamAction action)
+      $ getInnerHtml action
 
 mkStreamHtml :: TurboStream -> Html
 mkStreamHtml TurboStream {..} =
-  turboStream ! targetAttr (textValue target) ! actionAttr (serializeStreamAction action) $
-    getInnerHtml action
+  turboStream ! targetAttr (textValue target)
+    ! actionAttr (serializeStreamAction action)
+    $ getInnerHtml action
 
 turboConn :: MonadIO m => WS.PendingConnection -> m WS.Connection
 turboConn pending =
