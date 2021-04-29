@@ -81,8 +81,10 @@ writeShellScriptBin "haskwire-update-git-hook" ''
 
     local rootDir="$(${git}/bin/git rev-parse --show-toplevel)"
     local hookMarker="$(basename ""$hookCommand"")"
-    local hookBegin="begin haskwire-$hookMarker"
-    local hookEnd="end haskwire-$hookMarker"
+    local hookBegin="begin $hookMarker"
+    echo $hookBegin
+    local hookEnd="end $hookMarker"
+    echo $hookEnd
     local gitHookPath="$(${git}/bin/git rev-parse --git-path hooks)/$hookName"
     local shellNixPath="$rootDir/shell.nix"
 
