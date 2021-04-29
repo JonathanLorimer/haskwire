@@ -23,12 +23,12 @@ There are several utility scripts provided by the nix-shell:
   - `format` - Formats all hs files with `ormolu`
 
 The nix shell also provides these haskell tools:
-  - cabal
-  - haskell-language-server
-  - ghcid
-  - ormolu
+  - [cabal](https://cabal.readthedocs.io/en/3.4/getting-started.html)
+  - [haskell-language-server](https://github.com/haskell/haskell-language-server)
+  - [ghcid](https://github.com/ndmitchell/ghcid#readme)
+  - [ormolu](https://www.tweag.io/blog/2019-05-27-ormolu/)
 
-A typical workflow might look like this:
+A typical development workflow might look like this:
 
 ```bash
 nix-shell
@@ -49,7 +49,6 @@ run
 ```
 
 you should see this output in your terminal:
-
 ```bash
 λ🔌 Running haskwire demo on port 8081 ✨✨✨
 ```
