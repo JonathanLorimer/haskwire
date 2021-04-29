@@ -25,7 +25,7 @@ let
     '';
   runScript = pkgs.writeShellScriptBin "run" "cabal run exe:demo";
   runTestScript = pkgs.writeShellScriptBin "run-test" "cabal run test:test";
-  formatScript = pkgs.writeShellScriptBin "format" "${run-ormolu}/bin/run-ormolu --mode inplace $(find . -name '*.hs')";
+  formatScript = pkgs.writeShellScriptBin "format" "${run-ormolu}/bin/run-ormolu inplace $(find . -name '*.hs' ! -path '**/dist-newstyle/**')";
 
 in hsPkgs.shellFor {
     packages = myHsPkgs: [
