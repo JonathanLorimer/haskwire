@@ -23,7 +23,7 @@ main = do
   let port = 8081
   let settings = Warp.setPort port Warp.defaultSettings
   sapp <- scottyApp
-  putStrLn . formatWith [bold, green] $ "Running scotty app on port " <> show port <> " ✨✨✨"
+  putStrLn . formatWith [bold, green] $ "λ🔌 Running haskwire demo on port " <> show port <> " ✨✨✨"
   Warp.runSettings settings $ WaiWs.websocketsOr WS.defaultConnectionOptions wsapp sapp
 
 logRequest :: MonadIO m => Text -> m ()

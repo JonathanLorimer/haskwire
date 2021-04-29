@@ -19,38 +19,6 @@ let
     '';
   runScript = pkgs.writeShellScriptBin "run" "cabal run exe:demo";
   runTestScript = pkgs.writeShellScriptBin "run-test" "cabal run test:test";
-  proxyScript = pkgs.writeShellScriptBin "proxy" ''
-      PIDFILE="${toString ./tmp/proxy/ssl-proxy.pid}"
-      CERT="${toString ./crt-file.crt}"
-      KEY="${toString ./key-file.key}"
-      die() {
-        echo "Error: $2" >&2
-        exit "$1"
-      }
-      [ "$USER" != "root" ] && die 1 "Must be run as root"
-      start() {
-        [ -f "$PIDFILE" ] && [ "$(ps -p $(<"$PIDFILE") -o comm=)" == "ssl-proxy" ] && \
-          die 2 "Proxy already running"
-        mkdir -p "$(dirname "$PIDFILE")"
-        ${pkgs.ssl-proxy}/bin/ssl-proxy \
-          -cert $CERT \
-          -key $KEY \
-          -redirectHTTP \
-          -from 0.0.0.0:443 \
-          -to 127.0.0.1:8081 &
-        echo $! >"$PIDFILE"
-      }
-      stop() {
-        [ ! -f "$PIDFILE" ] && die 3 "No running proxy"
-        kill $(<"$PIDFILE")
-        rm "$PIDFILE"
-      }
-      case $1 in
-        start) start ;;
-        stop) stop ;;
-        *) echo "Usage: proxy (start|stop)" ;;
-      esac
-    '';
   formatScript = pkgs.writeShellScriptBin "format" "ormolu --mode inplace $(find . -name '*.hs')";
 
 in hsPkgs.shellFor {
